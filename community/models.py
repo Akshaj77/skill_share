@@ -15,7 +15,7 @@ class Community(models.Model):
     name = models.CharField(max_length=255, primary_key=True)
     skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
     members = models.ManyToManyField("user.User", through="Membership")
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True,null=True)
     banner = models.ImageField(upload_to="community/banner/")
     profile_image = models.ImageField(upload_to="community/profile_image/")
 
@@ -24,9 +24,7 @@ class Community(models.Model):
 
 
 class Membership(models.Model):
-    user = models.ForeignKey(
-        "user.User", on_delete=models.CASCADE, related_name="memberships"
-    )
+    user = models.ForeignKey("user.User", on_delete=models.CASCADE,related_name="memberships")
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_admin = models.BooleanField(default=False)
@@ -42,8 +40,8 @@ class Badge(models.Model):
 class Session(models.Model):
     channel_id = models.UUIDField(default=uuid.uuid4, editable=False)
     community = models.ForeignKey(Community, on_delete=models.CASCADE)
-    time = models.DateTimeField(auto_now_add=True)
-    description = models.TextField(blank=True)
+    time = models.DateTimeField(blank=False,null=False)
+    description = models.TextField(blank=False,null=False)
     duration = models.IntegerField()
 
 

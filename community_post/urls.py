@@ -18,4 +18,19 @@ urlpatterns = [
         views.CommunityPostByCommunityView.as_view(),
         name="community-post-by-community-view",
     ),
+    path(
+        "save/",
+        views.SavePostView.as_view(),
+        name="save-post-view",
+    ),
+    path(
+        "vote/",
+        views.VotePostView.as_view(),
+        name="vote-post-view",
+    ),
+    path(
+        "saved/",
+        views.SavedPostsView.as_view(),
+        name="saved-posts-view",
+    ),
 ]

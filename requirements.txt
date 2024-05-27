@@ -14,3 +14,4 @@ Faker==25.2.0
 pandas==2.2.2
 scikit-learn==1.4.2
 scikit-surprise==1.1.4
+django-cors-headers==4.3.1

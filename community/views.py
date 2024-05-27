@@ -83,3 +83,16 @@ class FeedbackView(APIView):
         return Response(
             feedback, status=status.HTTP_200_OK
         )
+    
+class CommunityMembersView(APIView):
+    authentication_classes = [FirebaseAuthentication]
+
+    def post(self, request):
+        try:
+            data = request.data
+            community_name = data.get("community")
+            members = [request.user]
+            community = community_service.add_members_to_community(community_name, members)
+            return Response(CommunitySerializer(community).data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)

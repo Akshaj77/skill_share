@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from community_post.models import CommunityPost, Vote, Comment, CommentVote, SavedPost
 from user.serializers import UserSerializer
+from community.serializers import CommunityListSerializer
 
 
 class CommunityPostSerializer(serializers.ModelSerializer):
@@ -15,6 +16,7 @@ class CommunityPostListSerializer(serializers.ModelSerializer):
     """
 
     user = UserSerializer(read_only=True)
+    community = CommunityListSerializer(read_only=True)
 
     score = serializers.SerializerMethodField()
     vote = serializers.SerializerMethodField()
@@ -45,6 +47,7 @@ class CommunityPostDetailSerializer(serializers.ModelSerializer):
     """
 
     user = UserSerializer(read_only=True)
+    community = CommunityListSerializer(read_only=True)
 
     upvotes = serializers.SerializerMethodField()
     downvotes = serializers.SerializerMethodField()
@@ -71,7 +74,7 @@ class CommunityPostDetailSerializer(serializers.ModelSerializer):
 
     def get_vote(self, obj):
         user = self.context["request"].user
-        vote = SavedPost.objects.filter(post=obj, user=user).first()
+        vote = Vote.objects.filter(post=obj, user=user).first()
         if vote:
             return vote.value
         return None
